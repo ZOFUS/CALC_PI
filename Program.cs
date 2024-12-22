@@ -51,7 +51,6 @@ class Program
         return results;
     }
 
-
     // Генерация случайных чисел и расчет интеграла
     static double[][] CalculateIntegral(int[] expNums, double a, double b, int numSeries)
     {
@@ -60,11 +59,11 @@ class Program
         double ymin = 0;
         double ymax = Math.Pow(b, 3) + 1;
         double[][] results = new double[numSeries][];
+        Random random = new Random();
 
         for (int i = 0; i < numSeries; i++)
         {
             results[i] = new double[expNums.Length];
-            Random random = new Random(); // Создаем новый экземпляр Random для каждой серии
             for (int j = 0; j < expNums.Length; j++)
             {
                 int m = 0;
@@ -103,6 +102,7 @@ class Program
         return averages;
     }
 
+    // Расчет стандартного отклонения по каждой серии данных
     static double[] CalculateStandardDeviation(double[][] series, double[] averages)
     {
         double[] deviations = new double[series[0].Length];
@@ -118,6 +118,7 @@ class Program
         return deviations;
     }
 
+    // Расчет отклонений от точного значения
     static double[] CalculateDeviation(double[][] results, double referenceValue)
     {
         double[] deviations = new double[results[0].Length];
@@ -133,6 +134,8 @@ class Program
         }
         return deviations;
     }
+
+    // Вывод таблицы с результатами
     static void PrintTable(double[][] data, string title)
     {
         using (var writer = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = false })
@@ -152,7 +155,7 @@ class Program
                 writer.WriteLine();
             }
             writer.WriteLine(new string('-', 60));
-            writer.Flush(); // Выполнение вывода
+            writer.Flush();
         }
     }
 
@@ -187,12 +190,12 @@ class Program
 
         // Задание 4: расчет интеграла
         Console.WriteLine("\nРасчет значения интеграла:");
-        double[][] integralResults = CalculateIntegral(expNums.Take(expNums.Length - 1).ToArray(), a, b, 3);
+        double[][] integralResults = CalculateIntegral(expNums.Take(expNums.Length - 1).ToArray(), a, b, 5);
         PrintTable(integralResults, "Результаты расчета интеграла");
 
         double[] integralAverages = CalculateAverage(integralResults);
         double[] integralDeviations = CalculateStandardDeviation(integralResults, integralAverages);
-        double[] integralDeviationPercentages = CalculateDeviation(integralResults, 6); // Точное значение интеграла
+        double[] integralDeviationPercentages = CalculateDeviation(integralResults, 6);
 
         Console.WriteLine("Отклонение для интеграла:");
         Console.WriteLine(new string('-', 100));
